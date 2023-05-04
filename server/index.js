@@ -3,6 +3,10 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
+//routes
+const charactersRouter = require("./routes/characters");
+app.use("/characters", charactersRouter);
+
 const db = new sqlite3.Database(
   "../db/character.sqlite",
   sqlite3.OPEN_READWRITE,
@@ -46,26 +50,12 @@ app.get("/auth", async (req, res) => {
   const characterData = {
     characterID: characterAuthResponse.CharacterID,
     characterName: characterAuthResponse.CharacterName,
+    access_token: access_token,
   };
+  console.log(characterData);
   res.redirect(
-    `http://localhost:3000/character-dashboard?characterID=${characterData.characterID}`
+    `http://localhost:3000/character-dashboard?characterID=${characterData.characterID}&auth=${characterData.access_token}`
   );
-});
-
-app.get("/character/get-info/:id", async (req, res) => {
-  console.log("Getting Character Data...");
-  const characterID = req.params.id;
-  const response = await fetch(`${eveURL}/characters/${characterID}/`);
-  const data = await response.json();
-  const info = {
-    name: data.name,
-    corporationID: data.corporation_id,
-    securityStatus: data.security_status,
-  };
-  db.run(
-    `INSERT INTO characters(character_id, character_name, corporation_number, security_status) VALUES (${characterID}, ${info.name}, ${info.corporationID}, ${info.securityStatus})`
-  );
-  res.json(info);
 });
 
 app.listen(PORT, () => {

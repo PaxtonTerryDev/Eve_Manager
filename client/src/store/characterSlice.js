@@ -7,6 +7,7 @@ const initialState = {
   corporationID: "",
   securityStatus: "",
   portrait: {},
+  accessToken: "",
 };
 
 const characterSlice = createSlice({
@@ -31,6 +32,9 @@ const characterSlice = createSlice({
     setPortraits: (state, action) => {
       state.portrait = action.payload;
     },
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
+    },
   },
 });
 
@@ -41,6 +45,7 @@ export const {
   setCorporationID,
   setSecurityStatus,
   setPortraits,
+  setAccessToken,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;

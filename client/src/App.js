@@ -40,6 +40,7 @@ function App() {
       dispatch(setPortraits(portraits));
     };
     if (characterID) {
+      console.log("Retrieving Character Data");
       getCharacterInfo(characterID);
     }
   }, []);

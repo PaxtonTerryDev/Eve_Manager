@@ -19,8 +19,6 @@ function App() {
     dispatch(setAccessToken(auth));
   }, []);
 
-  console.log(characterID, accessToken);
-
   return (
     <>
       <Routes>

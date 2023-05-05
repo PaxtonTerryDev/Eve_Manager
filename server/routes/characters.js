@@ -1,27 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const eveURL = "https://esi.evetech.net/latest/characters";
-const setHeaders = (token) => {
-  return { Authorization: `Bearer ${token}` };
-};
 
 router.get("/:id", async (req, res) => {
   const characterID = req.params.id;
-  let response = await fetch(`${eveURL}/${characterID}/`);
+  let response = await fetch(`${eveURL}/${characterID}`);
   let characterData = await response.json();
-  console.log(characterData);
+  res.json(characterData);
 });
 
-router.get("/:id/blueprints/:token", async (req, res) => {
+router.get("/:id/blueprints", async (req, res) => {
   const characterID = req.params.id;
-  const token = req.params.token;
+  const token = req.headers["token"];
 
-  console.log("requestReceived \n", characterID, token);
   let response = await fetch(`${eveURL}/${characterID}/blueprints/`, {
-    headers: setHeaders(token),
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   let blueprintData = await response.json();
-  console.log(blueprintData);
+  res.json(blueprintData);
 });
 
 module.exports = router;

@@ -10,14 +10,9 @@ const template = async () => {
 
 export const character = {
   getBasicInfo: async (characterID) => {
-    const response = await fetch(`${eveURL}/characters/${characterID}/`);
+    const response = await fetch(`${url}/character/get-info/${characterID}`);
     const data = await response.json();
-    const info = {
-      name: data.name,
-      corporationID: data.corporation_id,
-      securityStatus: data.security_status,
-    };
-    return info;
+    return data;
   },
 
   getPortraits: async (characterID) => {
